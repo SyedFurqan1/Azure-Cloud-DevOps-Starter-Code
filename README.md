@@ -68,7 +68,7 @@ Optionally, you can also change other things in the Packer template if you wish 
 
 Run the following command to create your custom VM image (fill in your variables);
 
-```packer build -var 'subscription_id=<YOUR SUBSCRIPTION ID>' -var 'managed_image_resource_group=<NAME OF THE RESOURCE GROUP>' -var 'managed_image=<NAME YOUR IMAGE>' centos7-9_image_template.json```
+```packer build -var 'subscription_id=<YOUR SUBSCRIPTION ID>' -var 'managed_image_resource_group=<NAME OF THE RESOURCE GROUP>' -var 'managed_image=<NAME YOUR IMAGE>' server.json```
 
 The above command might require you to authenticate Packer to log in to your Azure account.
 
