@@ -1,8 +1,6 @@
-## Azure Infrastructure Operations Project: Deploying a scalable IaaS web server in Azure
+ Azure Infrastructure Operations Project: Deploying a scalable IaaS web server in Azure
 
-### (This section of ReadMe applies to the folder C1 - Azure Infrastructure Operations)
-
-### Introduction
+### Introduction (This ReadMe applies to the folder C1 - Azure Infrastructure Operations)
 This project is designed to create a Packer template and Terraform template to deploy a customizable, scalable web server in Azure. You can also optionally deploy a custom Azure policy using Azure CLI which will deny any deployment of indexed resources if it does not contain a tag.
 
 ### Dependencies
@@ -39,6 +37,7 @@ After creating this policy definition we will then assign this policy to any res
 
 Notice in the above command we have not specified any ```--scope``` parameter hence the above policy assignment would scope all over the subscription that you would be working with.
 
+Once the policy is applied we should see the policy assigned when we run the command ``` az policy assignment list ```. A reference output image has been stored in ```C1 - Azure Infrastructure Operations/project/policies/output-of-policies-assignment.png```.
 
 #### Creating a Image and Deploying/Storing it to our Azure account using Packer
 
@@ -68,7 +67,7 @@ Optionally, you can also change other things in the Packer template if you wish 
 
 Run the following command to create your custom VM image (fill in your variables);
 
-```packer build -var 'subscription_id=<YOUR SUBSCRIPTION ID>' -var 'managed_image_resource_group=<NAME OF THE RESOURCE GROUP>' -var 'managed_image=<NAME YOUR IMAGE>' server.json```
+```packer build -var 'subscription_id=<YOUR SUBSCRIPTION ID>' -var 'managed_image_resource_group=<NAME OF THE RESOURCE GROUP>' -var 'managed_image=<NAME YOUR IMAGE>' centos7-9_image_template.json```
 
 The above command might require you to authenticate Packer to log in to your Azure account.
 
