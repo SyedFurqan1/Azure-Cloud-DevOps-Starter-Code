@@ -20,10 +20,25 @@ resource "azurerm_network_security_group" "project-1-SG" {
     environment = var.prefix
   }
 }
+
+# lowest priority rule denying all inbound traffic from the internet to the vnet
+resource "azurerm_network_security_rule" "project-1-SG-rule-4" {
+  name                        = "${var.prefix}-deny-all-from-internet"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "0.0.0.0/0"
+  destination_address_prefix  = "10.0.0.0/16"
+  resource_group_name         = azurerm_resource_group.project-1-rg.name
+  network_security_group_name = azurerm_network_security_group.project-1-SG.name
+}
 # One rule allowing inbound traffic inside the same Virtual Network
 resource "azurerm_network_security_rule" "project-1-SG-rule-1" {
   name                        = "${var.prefix}-allow-inbound-from-vnet"
-  priority                    = 100
+  priority                    = 101
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "*"
@@ -37,7 +52,7 @@ resource "azurerm_network_security_rule" "project-1-SG-rule-1" {
 # One rule allowing outbound traffic inside the same Virtual Network
 resource "azurerm_network_security_rule" "project-1-SG-rule-2" {
   name                        = "${var.prefix}-allow-outbound-to-vnet"
-  priority                    = 101
+  priority                    = 102
   direction                   = "Outbound"
   access                      = "Allow"
   protocol                    = "*"
@@ -51,7 +66,7 @@ resource "azurerm_network_security_rule" "project-1-SG-rule-2" {
 # One rule allowing HTTP traffic to the VMs from the load balancer.
 resource "azurerm_network_security_rule" "project-1-SG-rule-3" {
   name                        = "${var.prefix}-allow-http-to-VMs-from-lb"
-  priority                    = 102
+  priority                    = 103
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "*"
@@ -62,20 +77,7 @@ resource "azurerm_network_security_rule" "project-1-SG-rule-3" {
   resource_group_name         = azurerm_resource_group.project-1-rg.name
   network_security_group_name = azurerm_network_security_group.project-1-SG.name
 }
-# lowest priority rule denying all inbound traffic from the internet to the vnet
-resource "azurerm_network_security_rule" "project-1-SG-rule-4" {
-  name                        = "${var.prefix}-deny-all-from-internet"
-  priority                    = 103
-  direction                   = "Inbound"
-  access                      = "Deny"
-  protocol                    = "*"
-  source_port_range           = "*"
-  destination_port_range      = "*"
-  source_address_prefix       = "0.0.0.0/0"
-  destination_address_prefix  = "10.0.0.0/16"
-  resource_group_name         = azurerm_resource_group.project-1-rg.name
-  network_security_group_name = azurerm_network_security_group.project-1-SG.name
-}
+
 
 resource "azurerm_virtual_network" "project-1-VN" {
   name                = "${var.prefix}-virtual-network"
